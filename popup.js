@@ -22,23 +22,24 @@ function scrapDataa() {
             console.log('No data found');
         }
 
-        nameDivs.forEach((nameDiv, index) => {
-            let h2 = nameDiv.querySelector('h2');
-            let desc = descDivs[index].querySelectorAll('span');
-
-            if (h2 && desc) {
-                let authorName = h2.innerText;
-                let descText = desc.innerText
-
-                if (authorName === "Rehan Khan" || authorName === "Dawood Ahmed") {
-                    let dataObj = {
-                        authorName: authorName,
-                        desc: descText,
-                    };
-                    scrapedDataArr.push(dataObj);
-                }
-            }
+        descDivs.forEach((descDiv, index) => {
+            let desc = descDiv.innerText;
+            console.log(desc);
         });
+        // nameDivs.forEach((nameDiv, index) => {
+        //     let h2 = nameDiv.querySelector('h2');
+
+        //     if (h2) {
+        //         let authorName = h2.innerText;
+
+        //         if (authorName) {
+        //             let dataObj = {
+        //                 authorName: authorName,
+        //             };
+        //             scrapedDataArr.push(dataObj);
+        //         }
+        //     }
+        // });
     });
 
     console.log(scrapedDataArr);
