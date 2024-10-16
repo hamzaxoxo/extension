@@ -4,42 +4,53 @@ scrapData.addEventListener('click', async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        function: scrapDataa
+        function: scrapeData
     });
 });
 
-function scrapDataa() {
+function scrapeData() {
     let scrapedDataArr = [];
+    let name = null;
+    let post = null;
+
     let data = document.querySelectorAll('div[role="feed"]');
 
     data.forEach(parentDiv => {
-        let nameDivs = parentDiv.querySelectorAll('div.x1yztbdb');
-        let descDivs = parentDiv.querySelectorAll(
-            'div[dir="auto"]'
-        );
+        let nameDivs = parentDiv.querySelectorAll('div.x1yztbdb strong');
+        let descDivs = parentDiv.querySelectorAll('div[role="article"]');
 
-        if (!nameDivs.length && !descDivs.length) {
-            console.log('No data found');
-        }
+        nameDivs.forEach(nameDiv => {
+            name = nameDiv.innerText;
+        });
 
-        nameDivs.forEach((nameDiv, index) => {
-            let h2 = nameDiv.querySelector('h2');
-            let desc = descDivs[index].querySelectorAll('span');
+        descDivs.forEach(descDiv => {
+            let description = "";
 
-            if (h2 && desc) {
-                let authorName = h2.innerText;
-                let descText = desc.innerText
+            let messageSpan = descDiv.querySelector('div[data-ad-preview="message"] span');
+            let imageDiv = descDiv.querySelector('.x10l6tqk.x17qophe.x13vifvy.xh8yej3 .x1vvkbs');
 
-                if (authorName === "Rehan Khan" || authorName === "Dawood Ahmed") {
-                    let dataObj = {
-                        authorName: authorName,
-                        desc: descText,
-                    };
-                    scrapedDataArr.push(dataObj);
-                }
+            let sharedPost = descDiv.querySelector('div[role="article"] div[role="feed"]');
+
+            if (messageSpan) {
+                description = messageSpan.innerText.trim();
+            } else if (imageDiv) {
+                description = imageDiv.innerText.trim();
             }
+
+            if (description) {
+                post = description;
+                scrapedDataArr.push({
+                    // data: {
+                    name: name,
+                    post: post
+                    // }
+                });
+            }
+
         });
     });
 
-    console.log(scrapedDataArr);
+    console.log(scrapedDataArr, "scrapedDataArr");
 }
+
+
