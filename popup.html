@@ -9,7 +9,7 @@
         body {
             font-family: Arial, sans-serif;
             padding: 10px;
-            width: 200px;
+            min-width: 400px;
         }
 
         #scrapeBtn,
@@ -25,6 +25,33 @@
             margin-top: 10px;
             cursor: pointer;
         }
+
+        .cont {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        strong {
+            font-weight: bolder;
+        }
+
+        #loading {
+            display: none;
+            border: 2px solid #dedede;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spinner 500ms linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spinner {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -32,7 +59,13 @@
     <h1>Scraped Data</h1>
     <button id="scrap-data">Scrap Data</button>
 
-    <ul id="postLists"></ul>
+    <div id="loading"></div>
+
+    <div class="cont">
+        <div id="total_records"></div>
+        <div id="result"></div>
+    </div>
+
 
     <script src="popup.js"></script>
 </body>
