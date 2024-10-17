@@ -80,3 +80,5 @@ function scrapeData() {
 
     console.log(scrapedDataArr, "scrapedDataArr");
 }
+
+
